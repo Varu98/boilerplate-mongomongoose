@@ -53,8 +53,8 @@ const findPeopleByName = async (personName, done) => {
   }
 };
 
-const findOneByFood = (food, done) => {
-  Person.findOne({ favouriteFoods: food }, function (err, data) {
+const findOneByFood = function(food, done) {
+  Person.findOne({favoriteFoods: food}, function (err, data) {
     if (err) return console.log(err);
     done(null, data);
   });
