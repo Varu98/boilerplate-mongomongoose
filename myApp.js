@@ -45,7 +45,7 @@ const createManyPeople = async (arrayOfPeople, done) => {
 
 const findPeopleByName = async (personName, done) => {
   try {
-    const data = await Person.find(personName);
+    const data = await Person.find({ name: personName });
 
     done(null, data);
   } catch (error) {
