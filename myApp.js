@@ -1,22 +1,65 @@
-require('dotenv').config();
+require("dotenv").config();
+const mongoose = require("mongoose");
+let PersonModel = require("./models/person");
 
+mongoose
+  .connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log("connected to MongoDB Atlas");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
-let Person;
+let Person = PersonModel;
+
+let person = new Person({
+  name: "John Doe",
+  age: 35,
+  favouriteFoods: ["idli", "sambhar"],
+});
 
 const createAndSavePerson = (done) => {
-  done(null /*, data*/);
+  let person = new Person({
+    name: "John Doe",
+    age: 35,
+    favouriteFoods: ["idli", "sambhar"],
+  });
+  person.save(function (err, data) {
+    if (err) return done(err);
+    done(null, data);
+  });
 };
 
-const createManyPeople = (arrayOfPeople, done) => {
-  done(null /*, data*/);
+const createManyPeople = async (arrayOfPeople, done) => {
+  try {
+    const result = await Person.create(arrayOfPeople);
+    done(null, result);
+  } catch (error) {
+    done(error);
+  }
 };
 
-const findPeopleByName = (personName, done) => {
-  done(null /*, data*/);
+const findPeopleByName = async (personName, done) => {
+  try {
+    const data = await Person.find({ name: personName });
+
+    done(null, data);
+  } catch (error) {
+    done(error);
+  }
 };
 
-const findOneByFood = (food, done) => {
-  done(null /*, data*/);
+const findOneByFood = async (food, done) => {
+  try {
+    const data = await Person.findOne({ favouriteFoods: food });
+    done(null, data);
+  } catch (error) {
+    done(error);
+  }
 };
 
 const findPersonById = (personId, done) => {
