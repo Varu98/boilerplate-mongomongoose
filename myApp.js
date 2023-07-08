@@ -34,13 +34,13 @@ const createAndSavePerson = (done) => {
   });
 };
 
-const createManyPeople = (arrayOfPeople, done) => {
-  const person = new Person(arrayOfPeople);
-  person.create(function (err, data) {
-    if (err) console.log(err);
-    console.log(data);
-    done(null, data);
-  });
+const createManyPeople = async (arrayOfPeople, done) => {
+  try {
+    const result = await Person.create(arrayOfPeople);
+    done(null, result);
+  } catch (error) {
+    done(error);
+  }
 };
 
 const findPeopleByName = (personName, done) => {
